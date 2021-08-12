@@ -21,7 +21,6 @@ func New(busName string, addr uint16) (*Device, error) {
 	if err != nil {
 		return nil, fmt.Errorf("ads1x15: could not initialize I2C: %w", err)
 	}
-	fmt.Println("connected")
 
 	d := &Device{
 		i2c: i2c,
