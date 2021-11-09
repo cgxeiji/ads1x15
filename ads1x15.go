@@ -105,21 +105,17 @@ func (d *Device) waitUntil(reg byte, flag uint16, bit byte) error {
 	switch bit {
 	case 1:
 		for {
-			state, err := d.i2c.ReadBytes(reg, 2)
-			s := uint16(state[0])<<8 | uint16(state[1])
-			if err != nil {
+			if state, err := d.i2c.ReadBytes(reg, 2); err != nil {
 				return fmt.Errorf("could not wait for %#b in %#b to be %v", flag, reg, bit)
-			} else if s&flag != 0 {
+			} else if s := uint16(state[0])<<8 | uint16(state[1]); s&flag != 0 {
 				return nil
 			}
 		}
 	case 0:
 		for {
-			state, err := d.i2c.ReadBytes(reg, 2)
-			s := uint16(state[0])<<8 | uint16(state[1])
-			if err != nil {
+			if state, err := d.i2c.ReadBytes(reg, 2); err != nil {
 				return fmt.Errorf("could not wait for %#b in %#b to be %v", flag, reg, bit)
-			} else if s&flag == 0 {
+			} else if s := uint16(state[0])<<8 | uint16(state[1]); s&flag == 0 {
 				return nil
 			}
 		}
